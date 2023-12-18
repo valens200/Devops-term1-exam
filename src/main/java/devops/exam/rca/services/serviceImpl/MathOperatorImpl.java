@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class MathOperatorImpl implements IMathOperator {
 
-
     @Override
     public Double doMath(Double operand1, Double operand2, String operation) throws InvalidOperationException {
         if ("/".equals(operation) && operand2 == (double) 0) {

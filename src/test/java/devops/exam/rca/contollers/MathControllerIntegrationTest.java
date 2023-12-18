@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -22,14 +22,17 @@ public class MathControllerIntegrationTest {
     private IMathOperator mathOperatorService;
     private static RestTemplate restTemplate;
 
-    @BeforeAll
+    @Value("${server.url}")
+    private String serverUrl;
 
+    @BeforeAll
     public static void initializeVariables(){
         restTemplate = new RestTemplate();
     }
 
     @Test
-    public void two_operands_when_added_return_sum() throws InvalidOperationException {
+    public void doMath() throws InvalidOperationException {
+
         DoMathRequestDTO mathRequestDTO = new DoMathRequestDTO(4.0,4.0,"/");
         ResponseEntity<?> response = restTemplate.exchange(
                 "http://localhost:8080/api/v1/math/do-math",

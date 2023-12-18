@@ -1,4 +1,5 @@
 package devops.exam.rca.controllers;
+import devops.exam.rca.exceptions.InvalidOperationException;
 import devops.exam.rca.models.dtos.CalcResponseDTO;
 import devops.exam.rca.models.dtos.DoMathRequestDTO;
 import devops.exam.rca.services.IMathOperator;
@@ -20,14 +21,16 @@ public class MathController {
         this.mathOperator = mathOperator;
     }
     @PostMapping("do-math")
-    public ResponseEntity<?> doMath(@RequestBody() @Valid DoMathRequestDTO dto ){
+    public ResponseEntity<?> doMath(@RequestBody() @Valid DoMathRequestDTO dto ) {
         try{
             if(dto.getOperand1() == null || dto.getOperand2() == null ) throw  new BadRequestException("No one of operands should be null");
             Double result = this.mathOperator.doMath(dto.getOperand1(),dto.getOperand2(),dto.getOperation());
             CalcResponseDTO calcResponseDTO = new CalcResponseDTO(result);
             return ResponseEntity.ok(calcResponseDTO);
-        }catch (BadRequestException badRequestException){
+        }catch (BadRequestException badRequestException) {
             return ResponseEntity.badRequest().body(badRequestException.getMessage());
+        }catch (InvalidOperationException exception){
+            return ResponseEntity.badRequest().body(exception.getMessage());
         }catch (Exception exception){
             return ResponseEntity.internalServerError().body(exception.getMessage());
         }
