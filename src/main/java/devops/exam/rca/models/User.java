@@ -1,4 +1,4 @@
-package decops.exam.rca.models;
+package devops.exam.rca.models;
 
 import jakarta.persistence.*;
 
