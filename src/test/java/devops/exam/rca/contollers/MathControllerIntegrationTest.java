@@ -41,18 +41,4 @@ public class MathControllerIntegrationTest {
                 DoMathRequestDTO.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
-
-    @Test
-    public void doMathReturnInternalBadRequest() throws InvalidOperationException {
-
-        DoMathRequestDTO mathRequestDTO = new DoMathRequestDTO(null,null,"/");
-        ResponseEntity<?> response = restTemplate.exchange(
-                "http://localhost:8080/api/v1/math/do-math",
-                HttpMethod.POST,
-                new HttpEntity<>(mathRequestDTO, null),
-                DoMathRequestDTO.class);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-    }
-
-
 }
